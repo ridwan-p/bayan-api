@@ -14,3 +14,15 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->get('testing', function () {
+	return "testing";
+});
+
+
+$router->get('users', 'UserController@index');
+$router->get('users/{id}', 'UserController@show');
+$router->post('users', "UserController@store");
+$router->put('users/{id}', "UserController@update");
+$router->delete('users/{id}', "UserController@destroy");
+
