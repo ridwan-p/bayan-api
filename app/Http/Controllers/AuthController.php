@@ -52,20 +52,13 @@ class AuthController extends Controller
 	    return $this->respondWithToken($token);
 	}
 
+	/**
+	 * Refresh Token
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function refresh()
 	{
-		// $token = JWTAuth::getToken();
-	 //    if(!$token){
-	 //        throw new AccessDeniedHttpException('Token not provided');
-	 //    }
-
-	 //    try{
-	 //        $token = JWTAuth::refresh($token);
-	 //    }catch(TokenInvalidException $e){
-	 //        throw new AccessDeniedHttpException('The token is invalid');
-	 //    }
 	    return $this->respondWithToken(Auth::guard()->refresh());
-
 	}
 
 	/**
