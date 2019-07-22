@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
 	/**
-	 * List user paginate
+	 * List users paginate
 	 * @return \Illuminate\Http\JsonResponse
 	 */
     public function index()
@@ -21,12 +21,22 @@ class UserController extends Controller
     	return response()->json(['data' => $users]);
     }
 
+    /**
+     * Show user
+     * @param  integer $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show($id)
     {
     	$user = User::findOrFail($id);
     	return response()->json(['data' => $user]);
     }
 
+    /**
+     * Store data in database
+     * @param  Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
     	$this->validate($request, [
@@ -45,7 +55,12 @@ class UserController extends Controller
 
     	return response()->json(['data' => $user]);
     }
-
+    /**
+     * Update data in database
+     * @param  Request $request
+     * @param  integer $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, $id)
     {
     	$user = User::findOrFail($id);
@@ -66,6 +81,11 @@ class UserController extends Controller
     	return response()->json(['data' => $user]);
     }
 
+     /**
+     * Delete data in database
+     * @param  integer $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy($id)
     {
     	$user = User::findOrFail($id);
@@ -73,6 +93,11 @@ class UserController extends Controller
     	return response()->json(['data' => $user]);
     }
 
+     /**
+     * Show user profile
+     * @param  Request $request
+     * @return array
+     */
     public function profile(Request $request)
     {
         return $request->user();
