@@ -72,4 +72,9 @@ class UserController extends Controller
  		$user->delete();
     	return response()->json(['data' => $user]);
     }
+
+    public function profile(Request $request)
+    {
+        return $request->user();
+    }
 }
