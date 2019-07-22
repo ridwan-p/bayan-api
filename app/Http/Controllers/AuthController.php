@@ -12,6 +12,11 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
+	/**
+	 * Auth User
+	 * @param  Request $request
+	 * @return array
+	 */
     public function login(Request $request) {
 
 	    // Validate
@@ -42,9 +47,14 @@ class AuthController extends Controller
 	    ];
 	}
 
+	/**
+	 * Validation Role
+	 * @param  Request $request
+	 * @return array
+	 */
 	protected function validation(Request $request)
 	{
-		$this->validate($request, [
+		return $this->validate($request, [
     		'username' => 'required',
     		'password' => 'required'
 	    ]);

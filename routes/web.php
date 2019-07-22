@@ -19,7 +19,7 @@ $router->get('/', function () use ($router) {
 
 $router->post('login', "AuthController@login");
 
-$router->group(['middleware' => 'auth'], function () use ($router) {
+$router->group(['middleware' => 'auth:api'], function () use ($router) {
     $router->get('users', 'UserController@index');
 	$router->get('users/{id}', 'UserController@show');
 	$router->post('users', "UserController@store");
