@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -26,3 +28,15 @@ $router->post('users', "UserController@store");
 $router->put('users/{id}', "UserController@update");
 $router->delete('users/{id}', "UserController@destroy");
 
+// $router->get("user", ["middleware" => "auth:api", "uses" => "UserController@login"]);
+// $router->post('/login', function (Request $request) {
+//     $token = app('auth')->attempt($request->only('username', 'password'));
+
+//     return response()->json(compact('token'));
+// });
+$router->post('login', "AuthController@login");
+
+
+$router->get('/me', function (Request $request) {
+    return $request->user();
+});
