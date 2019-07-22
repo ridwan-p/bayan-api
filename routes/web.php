@@ -18,6 +18,8 @@ $router->get('/', function () use ($router) {
 });
 
 $router->post('login', "AuthController@login");
+$router->post('refresh', "AuthController@refresh");
+
 
 $router->group(['middleware' => 'auth:api'], function () use ($router) {
     $router->get('users', 'UserController@index');
