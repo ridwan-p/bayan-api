@@ -19,6 +19,8 @@ $router->get('/', function () use ($router) {
 
 $router->post('login', "AuthController@login");
 $router->post('refresh', "AuthController@refresh");
+$router->post('logout', "AuthController@logout");
+$router->get('profile', "AuthController@profile");
 
 
 $router->group(['middleware' => 'auth:api'], function () use ($router) {
@@ -27,5 +29,4 @@ $router->group(['middleware' => 'auth:api'], function () use ($router) {
 	$router->post('users', "UserController@store");
 	$router->put('users/{id}', "UserController@update");
 	$router->delete('users/{id}', "UserController@destroy");
-	$router->get('users/profile', "UserController@profile");
 });

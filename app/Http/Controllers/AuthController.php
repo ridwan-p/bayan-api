@@ -61,6 +61,27 @@ class AuthController extends Controller
 	    return $this->respondWithToken(Auth::guard()->refresh());
 	}
 
+    /**
+     * Logout user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout()
+    {
+        Auth::guard()->logout();
+
+        return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    /**
+     * Show user profile
+     * @param  Request $request
+     * @return array
+     */
+    public function profile(Request $request)
+    {
+        return $request->user();
+    }
+
 	/**
 	 * Validation Role
 	 * @param  Request $request
