@@ -3,4 +3,8 @@
 Homestead.json
 Homestead.yaml
 .env
-*.sublime-project
+composer.lock
+package-lock.json
+yarn.lock
+
+*.sublime*
