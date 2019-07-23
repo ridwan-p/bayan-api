@@ -93,13 +93,5 @@ class UserController extends Controller
     	return response()->json(['data' => $user]);
     }
 
-     /**
-     * Show user profile
-     * @param  Request $request
-     * @return array
-     */
-    public function profile(Request $request)
-    {
-        return $request->user();
-    }
+
 }
