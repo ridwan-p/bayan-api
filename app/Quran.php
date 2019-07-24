@@ -13,7 +13,7 @@ class Quran extends Model
     	// data
     	'surah',
     	'description',
-    	'mp3',
+    	'player',
     	'category'
     ];
 

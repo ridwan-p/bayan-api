@@ -18,7 +18,7 @@ class CreateQuransTable extends Migration
             $table->unsignedBigInteger('reciter_id');
             $table->string('surah', 45);
             $table->string('description')->default('');
-            $table->string('mp3');
+            $table->string('player');
             $table->string('category', 21)->nullable();
             $table->timestamps();
         });

@@ -32,4 +32,10 @@ $router->group(['middleware' => 'auth:api'], function () use ($router) {
 
 	$router->get('reciters', 'ReciterController@index');
 	$router->get('reciters/{id}', 'ReciterController@show');
+
+	$router->get('qurans', 'QuranController@index');
+	$router->get('qurans/{id}', 'QuranController@show');
+	$router->post('qurans', 'QuranController@store');
+	$router->patch('qurans/{id}', 'QuranController@update');
+	$router->delete('qurans/{id}', 'QuranController@destroy');
 });

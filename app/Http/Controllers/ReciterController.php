@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Reciter;
 use Illuminate\Http\Request;
 
 class ReciterController extends Controller

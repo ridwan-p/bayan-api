@@ -10,6 +10,8 @@ class Tag extends Model
     	'slug'
     ];
 
+    public $timestamps = false;
+
     public function qurans()
     {
     	return $this->belongsToMany(Player::class);
