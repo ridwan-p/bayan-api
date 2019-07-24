@@ -4,16 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Reciter extends Model
+class Tag extends Model
 {
     protected $fillable = [
-    	'name',
-    	'description',
-    	'address'
+    	'slug'
     ];
 
     public function qurans()
     {
-    	return $this->hasMany(Reciter::class);
+    	return $this->belongsToMany(Player::class);
     }
 }

@@ -30,6 +30,6 @@ $router->group(['middleware' => 'auth:api'], function () use ($router) {
 	$router->put('users/{id}', "UserController@update");
 	$router->delete('users/{id}', "UserController@destroy");
 
-	$route->get('reciters', 'ReciterController@index');
-	$route->get('reciters/{id}', 'ReciterController@show');
+	$router->get('reciters', 'ReciterController@index');
+	$router->get('reciters/{id}', 'ReciterController@show');
 });

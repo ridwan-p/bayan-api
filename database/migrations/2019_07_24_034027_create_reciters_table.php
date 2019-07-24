@@ -15,7 +15,7 @@ class CreateRecitersTable extends Migration
     {
         Schema::create('reciters', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 45);
+            $table->string('name', 25);
             $table->string('description');
             $table->string('address');
             $table->timestamps();
