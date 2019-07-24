@@ -6,6 +6,12 @@ namespace App\Helpers;
  * @link https://github.com/codekerala/laravel-vue-js-spa-invoice/blob/master/app/Helper/HasManyRelation.php
  */
 trait HasManyRelation {
+
+    /**
+     * Store data has many
+     * @param  array $relations
+     *
+     */
     public function storeHasMany($relations)
     {
         $this->save();
@@ -19,6 +25,12 @@ trait HasManyRelation {
             $this->{$key}()->saveMany($newItems);
         }
     }
+
+     /**
+     * Update data has many
+     * @param  array $relations
+     *
+     */
     public function updateHasMany($relations)
     {
         $this->save();

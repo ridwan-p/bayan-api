@@ -32,17 +32,24 @@ class QuranController extends Controller
     	return $this->response($quran);
     }
 
-    // public function store(Request $request)
-    // {
-    // 	$this->validate($request, [
-    // 		'reciter_id' => 'required|exists:reciters,id',
-    // 		'surah' => 'required|max:45',
-    // 		'player' => 'required|file|mimes:mp3',
-    // 		'category' => 'nullable|max:21',
-    // 		'tags' => 'array',
-    // 		'tags.*' => 'nullable|max:45'
-    // 	]);
+    public function store(Request $request)
+    {
+    	$this->validate($request, [
+    		'reciter_id' => 'required|exists:reciters,id',
+    		'surah' => 'required|max:45',
+    		'player' => 'required|file|mimes:mp3',
+    		'category' => 'nullable|max:21',
+    		'tags' => 'array',
+    		'tags.*' => 'nullable|max:45'
+    	]);
 
+    	$quran = DB::transaction(function () use ($request) {
+    		$quran = new Quran();
+    		$quran->fill($request->except('tags'));
+    		$quran->storeHasMany($request->only('tags'));
+    		return $quran;
+    	});
 
-    // }
+    	return $this->response($quran);
+    }
 }

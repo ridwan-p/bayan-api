@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Helpers\BelongsToManyRelation;
 use Illuminate\Database\Eloquent\Model;
 
 class Quran extends Model
 {
+	use BelongsToManyRelation;
+
     protected $fillable = [
     	// foregn key
     	'reciter_id',
