@@ -18,7 +18,7 @@ class UserController extends Controller
     {
     	$users = User::paginate();
 
-    	return response()->json(['data' => $users]);
+    	return $this->response($users);
     }
 
     /**
@@ -29,7 +29,7 @@ class UserController extends Controller
     public function show($id)
     {
     	$user = User::findOrFail($id);
-    	return response()->json(['data' => $user]);
+    	return $this->response($user);
     }
 
     /**
@@ -53,8 +53,9 @@ class UserController extends Controller
     		return $user;
     	});
 
-    	return response()->json(['data' => $user]);
+    	return $this->response($user);
     }
+
     /**
      * Update data in database
      * @param  Request $request
@@ -78,7 +79,7 @@ class UserController extends Controller
     		return $user;
     	});
 
-    	return response()->json(['data' => $user]);
+    	return $this->response($user);
     }
 
      /**
@@ -90,7 +91,7 @@ class UserController extends Controller
     {
     	$user = User::findOrFail($id);
  		$user->delete();
-    	return response()->json(['data' => $user]);
+    	return $this->response($user);
     }
 
 

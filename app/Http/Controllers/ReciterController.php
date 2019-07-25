@@ -15,7 +15,7 @@ class ReciterController extends Controller
     {
     	$reciters = Reciter::paginate();
 
-    	return response()->json['data' => $reciters];
+    	return $this->response($reciters);
     }
 
     /**
@@ -27,6 +27,66 @@ class ReciterController extends Controller
     {
     	$reciter = Reciter::findOrFail($id);
 
-    	return response()->json('data' => $reciter);
+    	return $this->response($reciter);
+    }
+
+    /**
+     * Store reciter in database
+     * @param  Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            "name" => 'required|max:25',
+            'description' => 'required|max:255',
+            'address' => 'required|max:255'
+        ]);
+
+        $reciter = DB::transaction(function () use ($request) {
+            $reciter = new Reciter();
+            $reciter->fill($request->all());
+            $reciter->save();
+            return $reciter;
+        });
+
+        return $this->response($reciter);
+    }
+
+    /**
+     * Update reciter in database
+     * @param  Request $request
+     * @param  integer  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, $id)
+    {
+        $reciter = Reciter::findOrFail($id);
+
+        $this->validate($request, [
+            "name" => 'required|max:25',
+            'description' => 'required|max:255',
+            'address' => 'required|max:255'
+        ]);
+
+        $reciter = DB::transaction(function () use ($request, $reciter) {
+            $reciter->fill($request->all());
+            $reciter->save();
+            return $reciter;
+        });
+
+        return $this->response($reciter);
+    }
+
+    /**
+     * Delete reciter in database
+     * @param  integer  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id)
+    {
+        $reciter = Reciter::findOrFail($id);
+        $reciter->delete();
+        return $this->response($reciter);
     }
 }

@@ -13,7 +13,7 @@ class QuranController extends Controller
 	 */
     public function index()
     {
-    	$qurans = Quran::with('reciter')
+    	$qurans = Quran::with('reciter', 'tags')
     		->paginate();
 
     	return $this->response($qurans);
@@ -32,24 +32,71 @@ class QuranController extends Controller
     	return $this->response($quran);
     }
 
+    /**
+     * Save data qur'an
+     * @param  Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
-    	$this->validate($request, [
-    		'reciter_id' => 'required|exists:reciters,id',
-    		'surah' => 'required|max:45',
-    		'player' => 'required|file|mimes:mp3',
-    		'category' => 'nullable|max:21',
-    		'tags' => 'array',
-    		'tags.*' => 'nullable|max:45'
-    	]);
+        $this->validate($request, [
+            'reciter_id' => 'required|exists:reciters,id',
+            'surah' => 'required|max:45',
+            'player' => 'required|file|mimes:mp3',
+            'category' => 'nullable|max:21',
+            'tags' => 'array',
+            'tags.*' => 'nullable|max:45'
+        ]);
 
-    	$quran = DB::transaction(function () use ($request) {
-    		$quran = new Quran();
-    		$quran->fill($request->except('tags'));
-    		$quran->storeHasMany($request->only('tags'));
-    		return $quran;
-    	});
+        $quran = DB::transaction(function () use ($request) {
+            $quran = new Quran();
+            $quran->fill($request->except('tags'));
+            $quran->storeHasMany($request->only('tags'));
+            return $quran;
+        });
 
-    	return $this->response($quran);
+        return $this->response($quran);
+    }
+
+    /**
+     * Update data qur'an
+     * @param  Request $request
+     * @param  integer $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, $id)
+    {
+        $quran = Quran::findOrFail($id);
+
+        $this->validate($request, [
+            'reciter_id' => 'required|exists:reciters,id',
+            'surah' => 'required|max:45',
+            'player' => 'required|file|mimes:mp3',
+            'category' => 'nullable|max:21',
+            'tags' => 'array',
+            'tags.*' => 'nullable|max:45'
+        ]);
+
+        $quran = DB::transaction(function () use ($request, $quran) {
+            $quran->fill($request->except('tags'));
+            $quran->updateHasMany($request->only('tags'));
+            return $quran;
+        });
+
+        return $this->response($quran);
+    }
+
+    /**
+     * Delete data qur'an
+     * @param  integer $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id)
+    {
+        $quran = Quran::findOrFail($id);
+
+        $quran->delete();
+
+        return $this->response($quran);
     }
 }
