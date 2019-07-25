@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Quran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class QuranController extends Controller
 {
@@ -42,10 +43,10 @@ class QuranController extends Controller
         $this->validate($request, [
             'reciter_id' => 'required|exists:reciters,id',
             'surah' => 'required|max:45',
-            'player' => 'required|file|mimes:mp3',
+            'player' => 'required|file|mimetypes:audio/mpeg',
             'category' => 'nullable|max:21',
             'tags' => 'array',
-            'tags.*' => 'nullable|max:45'
+            'tags.*.slug' => 'required|max:45'
         ]);
 
         $quran = DB::transaction(function () use ($request) {
@@ -54,6 +55,8 @@ class QuranController extends Controller
             $quran->storeHasMany($request->only('tags'));
             return $quran;
         });
+
+        $quran->load('tags', 'reciter');
 
         return $this->response($quran);
     }
@@ -71,10 +74,10 @@ class QuranController extends Controller
         $this->validate($request, [
             'reciter_id' => 'required|exists:reciters,id',
             'surah' => 'required|max:45',
-            'player' => 'required|file|mimes:mp3',
+            'player' => 'required|file|mimetypes:audio/mpeg',
             'category' => 'nullable|max:21',
             'tags' => 'array',
-            'tags.*' => 'nullable|max:45'
+            'tags.*.slug' => 'required|max:45'
         ]);
 
         $quran = DB::transaction(function () use ($request, $quran) {
@@ -82,6 +85,8 @@ class QuranController extends Controller
             $quran->updateHasMany($request->only('tags'));
             return $quran;
         });
+
+        $quran->load('tags', 'reciter');
 
         return $this->response($quran);
     }

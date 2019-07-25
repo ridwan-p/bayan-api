@@ -3,11 +3,12 @@
 namespace App;
 
 use App\Helpers\BelongsToManyRelation;
+use App\Helpers\HasManyRelation;
 use Illuminate\Database\Eloquent\Model;
 
 class Quran extends Model
 {
-	use BelongsToManyRelation;
+	use BelongsToManyRelation, HasManyRelation;
 
     protected $fillable = [
     	// foregn key
