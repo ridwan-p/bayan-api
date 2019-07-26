@@ -5,6 +5,7 @@ namespace App;
 use App\Helpers\BelongsToManyRelation;
 use App\Helpers\HasManyRelation;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class Quran extends Model
 {
@@ -45,12 +46,4 @@ class Quran extends Model
     	return $this->belongsToMany(Tag::class);
     }
 
-    /**
-     * Mutator player
-     * @param \Illuminate\Http\UploadedFile $player
-     */
-    public function setPlayerAttribute($player)
-    {
-        $this->attributes['player'] = $player->store('players');
-    }
 }

@@ -14,8 +14,17 @@ class QuranController extends Controller
 	 */
     public function index()
     {
-    	$qurans = Quran::with('reciter', 'tags')
-    		->paginate();
+    	$qurans = Quran::with('reciter')
+    		->paginate()
+            ->map(function ($item) {
+                $tmp = [];
+                foreach ($item->tags as $tag) {
+                    $tmp[] = $tag->slug;
+                }
+                $item->tags = $tmp;
+                // dd($item);
+                return $item;
+            });
 
     	return $this->response($qurans);
     }
@@ -43,7 +52,9 @@ class QuranController extends Controller
         $this->validate($request, [
             'reciter_id' => 'required|exists:reciters,id',
             'surah' => 'required|max:45',
-            'player' => 'required|file|mimetypes:audio/mpeg',
+            'is_file' => 'required|boolean',
+            'player_file' => 'required_if:is_file,1|file|mimetypes:audio/mpeg',
+            'player_url' => 'required_if:is_file,0|url',
             'category' => 'nullable|max:21',
             'tags' => 'array',
             'tags.*.slug' => 'required|max:45'
@@ -51,7 +62,10 @@ class QuranController extends Controller
 
         $quran = DB::transaction(function () use ($request) {
             $quran = new Quran();
-            $quran->fill($request->except('tags'));
+            $data = $request->except('tags');
+            $data['player'] = $request->is_file ? $request->player_file->store('players') : $request->player_url;
+
+            $quran->fill($data);
             $quran->storeHasMany($request->only('tags'));
             return $quran;
         });
@@ -74,14 +88,20 @@ class QuranController extends Controller
         $this->validate($request, [
             'reciter_id' => 'required|exists:reciters,id',
             'surah' => 'required|max:45',
-            'player' => 'required|file|mimetypes:audio/mpeg',
             'category' => 'nullable|max:21',
+            'is_file' => 'nullable|boolean',
+            'player_file' => 'required_if:is_file,1|file|mimetypes:audio/mpeg',
+            'player_url' => 'required_if:is_file,0|url',
             'tags' => 'array',
             'tags.*.slug' => 'required|max:45'
         ]);
 
         $quran = DB::transaction(function () use ($request, $quran) {
-            $quran->fill($request->except('tags'));
+            $data = $request->except('tags');
+            if($request->has('is_file')) {
+                $data['player'] = $request->is_file ? $request->player_file->store('players') : $request->player_url;
+            }
+            $quran->fill($data);
             $quran->updateHasMany($request->only('tags'));
             return $quran;
         });
