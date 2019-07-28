@@ -29,7 +29,6 @@ class AuthController extends Controller
 	 * @return array
 	 */
     public function login(Request $request) {
-
 	    // Validate
 	    $this->validation($request);
 
